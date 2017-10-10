@@ -1,0 +1,40 @@
+{
+  "name": "slj",
+  "version": "1.0.0",
+  "description": "A react-native app for girlfriend",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js || node app.js",
+    "test": "set NODE_ENV='test' && lab",
+    "report": "lab -r lcov -o coverage/lcov.info",
+    "coverage": "cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junfeisu/slj-RN.git"
+  },
+  "keywords": [
+    "App",
+    "React-Native"
+  ],
+  "author": "sujunfei (sjffly)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/junfeisu/slj-RN/issues"
+  },
+  "homepage": "https://github.com/junfeisu/slj-RN#readme",
+  "dependencies": {
+    "boom": "^5.2.0",
+    "hapi": "^16.5.2",
+    "joi": "^10.6.0",
+    "jsonwebtoken": "^8.0.0",
+    "mongoose": "^4.11.10",
+    "qiniu": "^7.0.8",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "coveralls": "^2.13.1",
+    "lab": "^14.3.0"
+  }
+}

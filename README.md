@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.org/junfeisu/slj-RN.svg?branch=master)](https://travis-ci.org/junfeisu/slj-RN)
+[![Test Coverage](https://coveralls.io/repos/github/junfeisu/slj-RN/badge.svg?branch=master)](https://coveralls.io/github/junfeisu/slj-RN)
