@@ -4,7 +4,7 @@ const validateToken = (req, reply) => {
     let headers = req.headers
 
     if (headers.hasOwnProperty('authorization')) {
-        let result = token.verify(headers.authorization)
+        let result = token.verifyToken(headers.authorization)
         
         if (!result.isValid) {
             reply(result).code(400)
