@@ -16,6 +16,20 @@ const returnInfo = {
     friend: 1
 }
 
+const hasFriend = (userId) => {
+    return new Promise((resolve, reject) => {
+        userModel.find({user_id: userId}, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                if (result.length) {
+                    resolve(result[0].friend)
+                }
+            }
+        })
+    })
+}
+
 // 获取用户信息
 let getUser = {
     method: 'GET',
@@ -130,17 +144,25 @@ let addFriend = {
             let userId = req.payload.user_id
             let friendId = req.payload.friend_id
 
-            userModel.update({user_id: userId, friend: 0}, {$set: {friend: friendId}}, (err, result) => {
-                if (err) {
-                    reply(Boom.badImplementation(err.message))
-                } else {
-                    if (result.n) {
-                        result.ok && result.nModified ? reply({message: '添加朋友成功'}) : reply({message: '添加朋友失败'})
+            hasFriend(friendId)
+                .then(friend => {
+                    if (!friend) {
+                        userModel.update({user_id: userId, friend: 0}, {$set: {friend: friendId}}, (err, result) => {
+                            if (err) {
+                                reply(Boom.badImplementation(err.message))
+                            } else {
+                                if (result.n) {
+                                    result.ok && result.nModified ? reply({message: '添加朋友成功'}) : reply({message: '添加朋友失败'})
+                                } else {
+                                    reply({message: '唯一朋友是不能更改的'})
+                                }
+                            }
+                        })
                     } else {
-                        reply({message: '唯一朋友是不能更改的'})
+                        reply({message: '您想添加的人已经有了朋友，换一个小伙伴吧'})
                     }
-                }
-            })
+                })
+            
         }
     }
 }
