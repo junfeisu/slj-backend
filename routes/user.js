@@ -12,7 +12,8 @@ const returnInfo = {
     user_id: 1,
     birthday: 1,
     user_icon: 1,
-    slogan: 1
+    slogan: 1,
+    friend: 1
 }
 
 // 获取用户信息

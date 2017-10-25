@@ -1,10 +1,10 @@
 const jsonWebToken = require('jsonwebtoken')
-const secretKey = 'sjf203529'
+const secret = 'sjf203529'
 
 const generateToken = (expire = '1h') => {
     let token = jsonWebToken.sign({
         name: 'slj',
-    }, secretKey, {
+    }, secret, {
         expiresIn: expire
     })
 

@@ -24,6 +24,10 @@ const userSchema = new Schema({
         required: false,
         default: "default.jpg"
     },
+    friend: {
+        type: Number,
+        default: 0
+    },
     slogan: {
         type: String,
         required: false,
