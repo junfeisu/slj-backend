@@ -8,20 +8,24 @@ const getDownloadUrl = require('../utils/qiniu').down
 
 const domain = 'http://owu5dbb9y.bkt.clouddn.com'
 
-// 获取文章列表
+// 获取自己和唯一的朋友的文章列表
 let getArticleList = {
     method: 'GET',
     path: '/article/list',
     config: {
         validate: {
             query: {
-                skip: Joi.number().integer().min(0).required()
+                skip: Joi.number().integer().min(0).required(),
+                user_id: Joi.number().integer().min(1).required(),
+                friend: Joi.number().integer().min(1)
             }
         }
     },
     handler: (req, reply) => {
         if (validateToken(req, reply)) {
             let skipNum = req.query.skip
+            let userId = req.query.user_id
+            let friendId = req.query.friend || 0
             let events = new EventEmitter()
             
             // skip一定要放在limit前面，这样的结果是limit(skipNum + limitNum)-->skip(skipNum)
@@ -30,7 +34,10 @@ let getArticleList = {
                 localField: 'author',
                 foreignField: 'user_id',
                 as: 'user'
-            }}, {$unwind: '$user'}, {$project: {
+            }}, {$unwind: '$user'}, {$match: {$or: [
+                {author: userId},
+                {author: friendId}
+            ]}}, {$project: {
                 _id: 0,
                 user: {
                     user_id: 1,
@@ -48,11 +55,11 @@ let getArticleList = {
                 if (err) {
                     reply(Boom.badImplementation(err.message))
                 } else {
-                    
                     let newResult = result.map(article => {
                         article.user.user_icon = getDownloadUrl(domain, article.user.user_icon)
                         return article
                     })
+
                     reply(result)
                 }
             })
