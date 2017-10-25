@@ -6,7 +6,7 @@ const token = require('../utils/token')
 const validateToken = require('../utils/interceptor')
 const getDownloadUrl = require('../utils/qiniu').down
 
-const returnInfo = {
+const returnUserInfo = {
     _id: 0,
     username: 1,
     user_id: 1,
@@ -30,8 +30,33 @@ const hasFriend = (userId) => {
     })
 }
 
-// 获取用户信息
-let getUser = {
+let searchUser = {
+    method: 'GET',
+    path: '/user/search',
+    config: {
+        validate: {
+            query: {
+                query: Joi.string().min(1).required()
+            }
+        }
+    },
+    handler: (req, reply) => {
+        if (validateToken(req, reply)) {
+            let queryStr = req.query.query
+            let matchReg = new RegExp(queryStr, 'i')
+
+            userModel.aggregate({$match: {username: matchReg}}, {$project: returnUserInfo}, (err, result) => {
+                if (err) {
+                    reply(Boom.badImplementation(err.message))
+                } else {
+                    reply(result)
+                }
+            })
+        }
+    }
+}
+
+let getUserInfo = {
     method: 'GET',
     path: '/user/{user_id}',
     config: {
@@ -48,7 +73,7 @@ let getUser = {
                 user_id: userId
             }
 
-            userModel.aggregate([{$match: matchInfo}, {$project: returnInfo}], (err, result) => {
+            userModel.aggregate([{$match: matchInfo}, {$project: returnUserInfo}], (err, result) => {
                 if (err) {
                     reply(Boom.badImplementation(err.message))
                 } else {
@@ -63,8 +88,7 @@ let getUser = {
     }
 }
 
-// 新增用户
-let addUser = {
+let addNewUser = {
     method: 'PUT',
     path: '/user/add',
     config: {
@@ -94,8 +118,7 @@ let addUser = {
     }
 }
 
-// 修改用户信息
-let updateUser = {
+let updateUserInfo = {
     method: 'POST',
     path: '/user/update/{user_id}',
     config: {
@@ -127,8 +150,7 @@ let updateUser = {
     }
 }
 
-// 添加唯一的朋友
-let addFriend = {
+let addOnlyFriend = {
     method: 'POST',
     path: '/user/addFriend',
     config: {
@@ -161,14 +183,15 @@ let addFriend = {
                     } else {
                         reply({message: '您想添加的人已经有了朋友，换一个小伙伴吧'})
                     }
+                }).catch(err => {
+                    reply(Boom.badImplementation(err.message))
                 })
             
         }
     }
 }
 
-// 用户登录
-let loginUser = {
+let userLogin = {
     method: 'POST',
     path: '/user/login',
     config: {
@@ -245,4 +268,4 @@ let updatePassword = {
     }
 }
 
-module.exports = [getUser, addUser, addFriend, updateUser, loginUser, updatePassword]
+module.exports = [searchUser, getUserInfo, addNewUser, addOnlyFriend, updateUserInfo, userLogin, updatePassword]
