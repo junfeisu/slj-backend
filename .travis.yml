@@ -4,6 +4,10 @@ sudo: false
 services: 
   - mongodb
 
+branches:
+  only:
+    - master
+
 before_install:
   - npm install
 
