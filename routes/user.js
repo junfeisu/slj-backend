@@ -106,7 +106,39 @@ let updateUser = {
                 if (err) {
                     reply(Boom.badImplementation(err.message))
                 } else {
-                    result.ok ? reply({message: '更改信息成功'}) : reply({message: '更改信息失败'})
+                    result.ok && result.nModified ? reply({message: '更改信息成功'}) : reply({message: '更改信息失败'})
+                }
+            })
+        }
+    }
+}
+
+// 添加唯一的朋友
+let addFriend = {
+    method: 'POST',
+    path: '/user/addFriend',
+    config: {
+        validate: {
+            payload: {
+                user_id: Joi.number().integer().min(1).required(),
+                friend_id: Joi.number().integer().min(1).required()
+            }
+        }
+    },
+    handler: (req, reply) => {
+        if (validateToken(req, reply)) {
+            let userId = req.payload.user_id
+            let friendId = req.payload.friend_id
+
+            userModel.update({user_id: userId, friend: 0}, {$set: {friend: friendId}}, (err, result) => {
+                if (err) {
+                    reply(Boom.badImplementation(err.message))
+                } else {
+                    if (result.n) {
+                        result.ok && result.nModified ? reply({message: '添加朋友成功'}) : reply({message: '添加朋友失败'})
+                    } else {
+                        reply({message: '唯一朋友是不能更改的'})
+                    }
                 }
             })
         }
@@ -191,4 +223,4 @@ let updatePassword = {
     }
 }
 
-module.exports = [getUser, addUser, updateUser, loginUser, updatePassword]
+module.exports = [getUser, addUser, addFriend, updateUser, loginUser, updatePassword]
