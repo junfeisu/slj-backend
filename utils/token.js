@@ -1,10 +1,10 @@
 const jsonWebToken = require('jsonwebtoken')
-const secret = 'sjf203529'
+const secretKey = 'sjf203529'
 
 const generateToken = (expire = '1h') => {
     let token = jsonWebToken.sign({
         name: 'slj',
-    }, secret, {
+    }, secretKey, {
         expiresIn: expire
     })
 
@@ -18,9 +18,9 @@ const verifyToken = (token) => {
     }
 
     try {
-        let decoded = jsonWebToken.verify(token, secret)
+        let decodedToken = jsonWebToken.verify(token, secret)
 
-        if (decoded.name === 'slj') {
+        if (decodedToken.name === 'slj') {
             return result
         }
     } catch (err) {

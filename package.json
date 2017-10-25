@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/junfeisu/slj-RN.git"
+    "url": "git+https://github.com/junfeisu/slj-backend.git"
   },
   "keywords": [
     "App",
@@ -20,9 +20,9 @@
   "author": "sujunfei (sjffly)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/junfeisu/slj-RN/issues"
+    "url": "https://github.com/junfeisu/slj-backend/issues"
   },
-  "homepage": "https://github.com/junfeisu/slj-RN#readme",
+  "homepage": "https://github.com/junfeisu/slj-backend#readme",
   "dependencies": {
     "boom": "^5.2.0",
     "hapi": "^16.5.2",
