@@ -1,2 +1,2 @@
-[![Build Status](https://travis-ci.org/junfeisu/slj-backend.svg?branch=master)](https://travis-ci.org/junfeisu/slj-RN)
-[![Test Coverage](https://coveralls.io/repos/github/junfeisu/slj-backend/badge.svg?branch=master)](https://coveralls.io/github/junfeisu/slj-RN)
+[![Build Status](https://travis-ci.org/junfeisu/slj-backend.svg?branch=master)](https://travis-ci.org/junfeisu/slj-backend)
+[![Test Coverage](https://coveralls.io/repos/github/junfeisu/slj-backend/badge.svg?branch=master)](https://coveralls.io/github/junfeisu/slj-backend)
