@@ -6,6 +6,8 @@ const token = require('../utils/token')
 const validateToken = require('../utils/interceptor')
 const getDownloadUrl = require('../utils/qiniu').down
 
+const domain = 'http://owu5dbb9y.bkt.clouddn.com'
+
 const returnUserInfo = {
     _id: 0,
     username: 1,
@@ -49,7 +51,11 @@ let searchUser = {
                 if (err) {
                     reply(Boom.badImplementation(err.message))
                 } else {
-                    reply(result)
+                    let newResult = result.map(user => {
+                        user.user_icon = getDownloadUrl(domain, user.user_icon)
+                        return user
+                    })
+                    reply(newResult)
                 }
             })
         }

@@ -60,7 +60,7 @@ let getArticleList = {
                         return article
                     })
 
-                    reply(result)
+                    reply(newResult)
                 }
             })
         }
