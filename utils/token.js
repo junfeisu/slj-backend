@@ -1,9 +1,9 @@
 const jsonWebToken = require('jsonwebtoken')
 const secret = 'sjf203529'
 
-const generateToken = (expire = '1h') => {
+const generateToken = (expire = '24h', userId) => {
     let token = jsonWebToken.sign({
-        name: 'slj',
+        name: userId,
     }, secret, {
         expiresIn: expire
     })
@@ -11,7 +11,7 @@ const generateToken = (expire = '1h') => {
     return token
 }
 
-const verifyToken = (token) => {
+const verifyToken = (token, userId) => {
     let result = {
         isValid: true,
         message: ''
@@ -20,7 +20,7 @@ const verifyToken = (token) => {
     try {
         let decodedToken = jsonWebToken.verify(token, secret)
 
-        if (decodedToken.name === 'slj') {
+        if (decodedToken.name === userId) {
             return result
         }
     } catch (err) {
@@ -31,6 +31,6 @@ const verifyToken = (token) => {
 }
 
 module.exports = {
-    generateToken,
-    verifyToken
+    generate: generateToken,
+    verify: verifyToken
 }

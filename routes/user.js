@@ -225,7 +225,7 @@ let userLogin = {
                                 let domain = 'http://owu5dbb9y.bkt.clouddn.com'
                                 result[i]._doc.user_icon = getDownloadUrl(domain, result[i]._doc.user_icon)
                             }
-                            result[i]._doc['token'] = process.env.NODE_ENV === 'test' ? token.generateToken('2s') : token.generateToken()
+                            result[i]._doc['token'] = process.env.NODE_ENV === 'test' ? token.generate('2s') : token.generate(result[i].user_id)
                             reply(result[i]._doc)
                             return
                         }
