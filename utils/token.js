@@ -1,7 +1,7 @@
 const jsonWebToken = require('jsonwebtoken')
 const secret = 'sjf203529'
 
-const generateToken = (expire = '24h', userId) => {
+const generateToken = (userId, expire = '1d') => {
     let token = jsonWebToken.sign({
         name: userId,
     }, secret, {
@@ -19,8 +19,7 @@ const verifyToken = (token, userId) => {
 
     try {
         let decodedToken = jsonWebToken.verify(token, secret)
-
-        if (decodedToken.name === userId) {
+        if (decodedToken.name === Number(userId)) {
             return result
         }
     } catch (err) {

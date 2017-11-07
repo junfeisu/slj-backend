@@ -1,4 +1,4 @@
-const token = require('./token')
+const tokenOperation = require('./token')
 
 const validateToken = (req, reply) => {
     let headers = req.headers
@@ -6,7 +6,7 @@ const validateToken = (req, reply) => {
     if (headers.hasOwnProperty('authorization')) {
         let token = headers.authorization.split('|')[0]
         let userId = headers.authorization.split('|')[1]
-        let result = token.verify(token, userId)
+        let result = tokenOperation.verify(token, userId)
         
         if (!result.isValid) {
             reply(result).code(400)
