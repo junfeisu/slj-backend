@@ -237,7 +237,9 @@ const userParamsCheck = {
             let tokenLen = loginSuccessInfo.token.length
 
             options.headers = {
-                'Authorization': tokenLen > 0 ? loginSuccessInfo.token.substring(0, tokenLen - 1) : loginSuccessInfo.token
+                'Authorization': tokenLen > 0 ? 
+                    loginSuccessInfo.token.substring(0, tokenLen - 1) + '|' + loginSuccessInfo.userId : 
+                    '|' + loginSuccessInfo.userId
             }
 
             server.inject(options, response => {
@@ -249,7 +251,7 @@ const userParamsCheck = {
 
         it('should return 400, token is expired', {timeout: 5000}, done => {
             options.headers = {
-                Authorization: loginSuccessInfo.token
+                Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
             }
 
             setTimeout(() => {
@@ -508,7 +510,7 @@ describe('get user API', () => {
     it('should return 200, return info is match to the testUserInfo', done => {
         options.url = '/user/' + loginSuccessInfo.userId
         options.headers = {
-            Authorization: loginSuccessInfo.token
+            Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
         }
 
         server.inject(options, response => {
@@ -587,7 +589,7 @@ describe('update user API', () => {
         let copyOptions = deepCopy(options)
         copyOptions.url = '/user/update/' + loginSuccessInfo.userId
         copyOptions.headers = {
-            Authorization: loginSuccessInfo.token
+            Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
         }
 
         server.inject(copyOptions, response => {
@@ -605,7 +607,7 @@ describe('update user API', () => {
         }
         copyOptions.url = '/user/update/' + loginSuccessInfo.userId
         copyOptions.headers = {
-            Authorization: loginSuccessInfo.token
+            Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
         }
         server.inject(copyOptions, response => {
             expect(response).to.have.property('statusCode', 200)
@@ -620,7 +622,7 @@ describe('update user API', () => {
         options.url = '/user/update/' + loginSuccessInfo.userId
         options.payload.password = '123456'
         options.headers = {
-            Authorization: loginSuccessInfo.token
+            Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
         }
 
         server.inject(options, response => {
@@ -634,7 +636,7 @@ describe('update user API', () => {
         delete options.payload.password
         options.payload.user_id = '123456'
         options.headers = {
-            Authorization: loginSuccessInfo.token
+            Authorization: loginSuccessInfo.token + '|' + loginSuccessInfo.userId
         }
 
         server.inject(options, response => {

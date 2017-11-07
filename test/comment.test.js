@@ -69,7 +69,7 @@ describe('test add comment', () => {
         login()
             .then(user => {
                 options.headers = {
-                    Authorization: user.token
+                    Authorization: user.token + '|' + user.user_id
                 }
                 options.payload = {
                     comment_user: user.user_id,

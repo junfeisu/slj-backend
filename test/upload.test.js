@@ -59,7 +59,7 @@ describe('get upload token', () => {
         login()
             .then(user => {
                 options.headers = {
-                    Authorization: user.token
+                    Authorization: user.token + '|' + user.user_id
                 }
                 
                 server.inject(options, response => {
@@ -88,7 +88,7 @@ describe('get download url', () => {
         login()
             .then(user => {
                 options.headers = {
-                    Authorization: user.token
+                    Authorization: user.token + '|' + user.user_id
                 }
 
                 options.payload = {

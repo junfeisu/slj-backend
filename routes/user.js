@@ -5,6 +5,7 @@ const userModel = require('../schemas/userSchema')
 const token = require('../utils/token')
 const validateToken = require('../utils/interceptor')
 const getDownloadUrl = require('../utils/qiniu').down
+const notice = require('../socket/index').notice
 
 const domain = 'http://owu5dbb9y.bkt.clouddn.com'
 
@@ -227,6 +228,10 @@ let userLogin = {
                             }
                             result[i]._doc['token'] = process.env.NODE_ENV === 'test' ? token.generate(result[i].user_id, '2s') : token.generate(result[i].user_id)
                             reply(result[i]._doc)
+                            // 通知朋友自己上线
+                            if (result[i]._doc.friend) {
+                                notice.noticeFriend('friendOnline', result[i]._doc)
+                            }
                             return
                         }
                     }

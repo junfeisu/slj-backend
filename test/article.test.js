@@ -77,7 +77,7 @@ const articleParamCheck = {
             login()
                 .then(user => {
                     options.headers = {
-                        Authorization: user.token
+                        Authorization: user.token + '|' + user.user_id
                     }
                     testArticleInfo.author = user.user_id
 

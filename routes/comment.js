@@ -26,7 +26,7 @@ let addComment = {
                     reply(Boom.badImplementation(err.message))
                 } else {
                     reply(result)
-                    notice.noticeFriend()('addComment', result)
+                    notice.noticeFriend('addComment', result)
                 }
             })
         }
