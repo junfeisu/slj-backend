@@ -2,6 +2,7 @@ const Joi = require('joi')
 const Boom = require('boom')
 const commentModel = require('../schemas/commentSchema').model
 const validateToken = require('../utils/interceptor')
+const notice = require('../socket/index.js').notice
 
 // 添加评论
 let addComment = {
@@ -25,6 +26,7 @@ let addComment = {
                     reply(Boom.badImplementation(err.message))
                 } else {
                     reply(result)
+                    notice.noticeFriend()('addComment', result)
                 }
             })
         }

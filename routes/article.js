@@ -5,6 +5,7 @@ const validateToken = require('../utils/interceptor')
 const articleModel = require('../schemas/articleSchema')
 const commentUtil = require('../utils/commentUtil')
 const getDownloadUrl = require('../utils/qiniu').down
+const notice = require('../socket/index').notice
 
 const domain = 'http://owu5dbb9y.bkt.clouddn.com'
 
@@ -118,7 +119,6 @@ let getSingleArticle = {
                     }
 
                     result[0].author.user_icon = getDownloadUrl(domain, result[0].author.user_icon)
-                    
                     reply(result[0])
                 }
             })
@@ -149,6 +149,7 @@ let addArticle = {
                     reply(Boom.badImplementation(err.message))
                 } else {
                     reply(result)
+                    notice.noticeFriend()('addArticle', result)
                 }
             })
         }

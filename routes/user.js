@@ -43,7 +43,7 @@ let searchUser = {
         }
     },
     handler: (req, reply) => {
-        if (validateToken(req, reply)) {
+        if (validateToken(req, res)) {
             let queryStr = req.query.query
             let matchReg = new RegExp(queryStr, 'i')
 
